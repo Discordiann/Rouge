@@ -36,9 +36,6 @@ guy.convert()
 guy = pygame.transform.scale(
                     guy,
                     (display.TILE_WIDTH, display.TILE_HEIGHT))
-
-display.images_to_draw.append([guy, (display.window.get_width() / 2, display.window.get_height() / 2)])
-
 # might want to use arrays instead of lists
 tile_map = []
 MAP_SIZE = (100, 100)
@@ -90,6 +87,9 @@ while running:
                 display.tile_screen[i][j] = tile_map[i + camera_x][j + camera_y]
             else:
                 display.tile_screen[i][j] = missing_texture
+
+    display.entity_list = []
+    display.entity_list.append([guy, (int(MAP_SIZE[0] / 2) - camera_x, int(MAP_SIZE[1] / 2) - camera_y)])
 
     display.render()
     clock.tick(60)  # limits FPS to 60

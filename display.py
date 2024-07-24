@@ -9,7 +9,9 @@ TILE_WIDTH = 0
 TILE_HEIGHT = 0
 
 tile_screen = []
+entity_list = []
 images_to_draw = []
+
 
 def to_screen_space(coord):
     """converts a screen_tilespace tuple to screenspace tuple"""
@@ -28,6 +30,12 @@ def draw_tiles(surface):
     for i in range(SCREEN_TILE_WIDTH):
         for j in range(SCREEN_TILE_HEIGHT):
             surface.blit(tile_screen[i][j], to_screen_space((i, j)))
+
+
+def draw_entities(surface):
+    """renders entities found in entity_list"""
+    for entity in entity_list:
+        surface.blit(entity[0], to_screen_space(entity[1]))
 
 
 def draw_images(surface):
@@ -52,5 +60,6 @@ def render():
     """Main game render function. renders entire frame"""
     window.fill("purple")
     draw_tiles(window)
+    draw_entities(window)
     draw_images(window)
     pygame.display.flip()
