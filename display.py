@@ -9,7 +9,7 @@ TILE_WIDTH = 0
 TILE_HEIGHT = 0
 
 tile_screen = []
-
+images_to_draw = []
 
 def to_screen_space(coord):
     """converts a screen_tilespace tuple to screenspace tuple"""
@@ -30,6 +30,11 @@ def draw_tiles(surface):
             surface.blit(tile_screen[i][j], to_screen_space((i, j)))
 
 
+def draw_images(surface):
+    """renders images on top of the tiles"""
+    surface.blits(images_to_draw)
+
+
 def init():
     """initializes the diplay call before accessing anything else"""
     global window, TILE_WIDTH, TILE_HEIGHT
@@ -47,4 +52,5 @@ def render():
     """Main game render function. renders entire frame"""
     window.fill("purple")
     draw_tiles(window)
+    draw_images(window)
     pygame.display.flip()
