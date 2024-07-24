@@ -78,7 +78,7 @@ while running:
     for i in range(display.SCREEN_TILE_WIDTH):
         for j in range(display.SCREEN_TILE_HEIGHT):
             if (0 <= i + camera_x < len(tile_map)
-                    and j + camera_x < len(tile_map[0])):
+                    and j + camera_y < len(tile_map[0])):
                 display.tile_screen[i][j] = tile_map[i + camera_x][j + camera_y]
             else:
                 display.tile_screen[i][j] = missing_texture
