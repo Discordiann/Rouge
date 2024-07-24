@@ -36,6 +36,15 @@ guy.convert()
 guy = pygame.transform.scale(
                     guy,
                     (display.TILE_WIDTH, display.TILE_HEIGHT))
+
+evil_guy = pygame.image.load("evil_guy.png")
+evil_guy.convert()
+evil_guy = pygame.transform.scale(
+                    evil_guy,
+                    (display.TILE_WIDTH, display.TILE_HEIGHT))
+
+evil_guy_cooldown = 10
+
 # might want to use arrays instead of lists
 tile_map = []
 MAP_SIZE = (100, 100)
@@ -65,6 +74,12 @@ for i in range(display.SCREEN_TILE_WIDTH):
     for j in range(display.SCREEN_TILE_HEIGHT):
         display.tile_screen[i].append(missing_texture)
 
+guy_x = int(MAP_SIZE[0] / 2)
+guy_y = int(MAP_SIZE[1] / 2)
+
+evil_guy_x = int(MAP_SIZE[0] / 2) + 2
+evil_guy_y = int(MAP_SIZE[1] / 2) + 2
+
 while running:
     # poll for events
     for event in pygame.event.get():
@@ -80,6 +95,19 @@ while running:
             elif event.key == ord('d'):
                 camera_x += 1
 
+    # evil guy logic
+    if evil_guy_cooldown > 0:
+        evil_guy_cooldown -= 1
+    else:
+        evil_guy_cooldown = 10
+        diff_x = evil_guy_x - guy_x
+        diff_y = evil_guy_y - guy_y
+        
+        if abs(diff_x) >= abs(diff_y):
+            evil_guy_x -= diff_x / abs(diff_x)
+        else:
+            evil_guy_y -= diff_y / abs(diff_y)
+
     for i in range(display.SCREEN_TILE_WIDTH):
         for j in range(display.SCREEN_TILE_HEIGHT):
             if (0 <= i + camera_x < len(tile_map)
@@ -89,7 +117,8 @@ while running:
                 display.tile_screen[i][j] = missing_texture
 
     display.entity_list = []
-    display.entity_list.append([guy, (int(MAP_SIZE[0] / 2) - camera_x, int(MAP_SIZE[1] / 2) - camera_y)])
+    display.entity_list.append([guy, (guy_x - camera_x, guy_x - camera_y)])
+    display.entity_list.append([evil_guy, (evil_guy_x - camera_x, evil_guy_y - camera_y)])
 
     display.render()
     clock.tick(60)  # limits FPS to 60
