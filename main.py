@@ -49,10 +49,12 @@ for i in range(200):
     tmp = random.randrange(0, 4)
     current_x += dir_x[tmp]
     current_y += dir_y[tmp]
+    for (x, y) in zip(dir_x, dir_y):
+        tile_map[current_x + x][current_y + y] = brown_texture
     tile_map[current_x][current_y] = brown_texture
 
-camera_x = 0
-camera_y = 0
+camera_x = int((MAP_SIZE[0] / 2) - (display.SCREEN_TILE_WIDTH / 2))
+camera_y = int((MAP_SIZE[1] / 2) - (display.SCREEN_TILE_HEIGHT / 2))
 for i in range(display.SCREEN_TILE_WIDTH):
     display.tile_screen.append([])
     for j in range(display.SCREEN_TILE_HEIGHT):
