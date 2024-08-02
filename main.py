@@ -54,38 +54,6 @@ dir_y = [1, -1,  0,  0]
 
 
 # generate map
-moore_dir = [(-1, 1),  (0, 1),  (1, 1),
-             (-1, 0),           (1, 0),
-             (-1, -1), (0, -1), (1, -1)]
-
-
-def celular_automata(ruleset: (set, set), start, steps):
-    size_x = len(start)
-    size_y = len(start[0])
-    prev = []
-    for x in range(size_x):
-        prev.append([])
-        for y in range(size_y):
-            prev[x].append(start[x][y])
-    next = []
-    for x in range(size_x):
-        next.append([0]*size_y)
-    for i in range(steps):
-        for x in range(size_x):
-            for y in range(size_y):
-                temp = 0
-                for (x_off, y_off) in moore_dir:
-                    temp += start[(x_off + x) % size_x][(size_y + y) % size_y]
-                    if temp in ruleset[start[x][y]]:
-                        next[x][y] = 1
-                    else:
-                        next[x][y] = 0
-        temp = prev
-        prev = next
-        next = prev
-    return next
-
-
 for i in range(MAP_SIZE[0]):
     tile_map.append([])
     for j in range(MAP_SIZE[1]):
