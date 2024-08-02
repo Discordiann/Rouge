@@ -10,7 +10,7 @@ TILE_HEIGHT = 0
 
 tile_screen = []
 entity_list = []
-images_to_draw = []
+ui_images = []
 
 
 def to_screen_space(coord):
@@ -38,9 +38,9 @@ def draw_entities(surface):
         surface.blit(entity[0], to_screen_space(entity[1]))
 
 
-def draw_images(surface):
-    """renders images on top of the tiles"""
-    surface.blits(images_to_draw)
+def draw_UI(surface):
+    """renders UI elements from images_to_draw on top of the tiles"""
+    surface.blits(ui_images)
 
 
 def init():
@@ -61,5 +61,5 @@ def render():
     window.fill("purple")
     draw_tiles(window)
     draw_entities(window)
-    draw_images(window)
+    draw_UI(window)
     pygame.display.flip()
