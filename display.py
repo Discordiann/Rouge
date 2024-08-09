@@ -8,9 +8,12 @@ SCREEN_TILE_HEIGHT = 36
 TILE_WIDTH = 0
 TILE_HEIGHT = 0
 
-tile_screen = []
-entity_list = []
-ui_images = []
+tile_screen: list[list[pygame.Surface]] = []
+"""defines the "screen_tilespace\""""
+entity_list: list[list[pygame.Surface | tuple[int, int]]] = []
+"""contains a list of entities, each containing their sprite and position in "screen_tilespace\""""
+ui_images: list[pygame.Surface]= []
+"""contains a list of images to be blitted onto the screen last each frame"""
 
 
 def to_screen_space(coord):

@@ -4,47 +4,21 @@ this module should not be imported anywhere
 import pygame
 import display
 import random
+import assets
 # pygame setup
 pygame.init()
 display.init()
+assets.init()
 # TODO: Make this a little smarter...
 clock = pygame.time.Clock()
 running = True
 tiles = []
 
-# asset setup
-missing_texture = pygame.image.load("image.png")
-missing_texture.convert()
-missing_texture = pygame.transform.scale(
-                    missing_texture,
-                    (display.TILE_WIDTH, display.TILE_HEIGHT))
-tiles.append(missing_texture)
-brown_texture = pygame.image.load("Brown.png")
-brown_texture.convert()
-brown_texture = pygame.transform.scale(
-                    brown_texture,
-                    (display.TILE_WIDTH, display.TILE_HEIGHT))
-tiles.append(brown_texture)
-blue_texture = pygame.image.load("Blue.png")
-blue_texture.convert()
-blue_texture = pygame.transform.scale(
-                    blue_texture,
-                    (display.TILE_WIDTH, display.TILE_HEIGHT))
-
-guy = pygame.image.load("guy.png")
-guy.convert()
-guy = pygame.transform.scale(
-                    guy,
-                    (display.TILE_WIDTH, display.TILE_HEIGHT))
-
-evil_guy = pygame.image.load("evil_guy.png")
-evil_guy.convert()
-evil_guy = pygame.transform.scale(
-                    evil_guy,
-                    (display.TILE_WIDTH, display.TILE_HEIGHT))
-
 evil_guy_cooldown = 10
-display.ui_images.append([guy, (display.window.get_width() / 2, display.window.get_height() / 2)])
+display.ui_images.append(
+    [assets.entity_textures[assets.Entities.GUY],
+     (display.window.get_width() / 2,
+      display.window.get_height() / 2)])
 
 # might want to use arrays instead of lists
 tile_map = []
@@ -57,7 +31,7 @@ dir_y = [1, -1,  0,  0]
 for i in range(MAP_SIZE[0]):
     tile_map.append([])
     for j in range(MAP_SIZE[1]):
-        tile_map[i].append(blue_texture)
+        tile_map[i].append(assets.tile_textures[assets.Tiles.BLUE])
 current_x = int(MAP_SIZE[0] / 2)
 current_y = int(MAP_SIZE[1] / 2)
 
@@ -66,15 +40,15 @@ for i in range(200):
     current_x += dir_x[tmp]
     current_y += dir_y[tmp]
     for (x, y) in zip(dir_x, dir_y):
-        tile_map[current_x + x][current_y + y] = brown_texture
-    tile_map[current_x][current_y] = brown_texture
+        tile_map[current_x + x][current_y + y] = assets.tile_textures[assets.Tiles.BROWN]
+    tile_map[current_x][current_y] = assets.tile_textures[assets.Tiles.BROWN]
 
 camera_x = int((MAP_SIZE[0] / 2) - (display.SCREEN_TILE_WIDTH / 2))
 camera_y = int((MAP_SIZE[1] / 2) - (display.SCREEN_TILE_HEIGHT / 2))
 for i in range(display.SCREEN_TILE_WIDTH):
     display.tile_screen.append([])
     for j in range(display.SCREEN_TILE_HEIGHT):
-        display.tile_screen[i].append(missing_texture)
+        display.tile_screen[i].append(assets.tile_textures[assets.Tiles.BLUE])
 
 guy_x = int(MAP_SIZE[0] / 2)
 guy_y = int(MAP_SIZE[1] / 2)
@@ -116,11 +90,13 @@ while running:
                     and j + camera_y < len(tile_map[0])):
                 display.tile_screen[i][j] = tile_map[i + camera_x][j + camera_y]
             else:
-                display.tile_screen[i][j] = missing_texture
+                display.tile_screen[i][j] = assets.tile_textures[assets.Tiles.MISSING]
 
     display.entity_list = []
-    display.entity_list.append([guy, (guy_x - camera_x, guy_x - camera_y)])
-    display.entity_list.append([evil_guy, (evil_guy_x - camera_x, evil_guy_y - camera_y)])
+    display.entity_list.append([assets.entity_textures[assets.Entities.GUY],
+                                (guy_x - camera_x, guy_x - camera_y)])
+    display.entity_list.append([assets.entity_textures[assets.Entities.EVIL_GUY],
+                                (evil_guy_x - camera_x, evil_guy_y - camera_y)])
 
     display.render()
     clock.tick(60)  # limits FPS to 60
