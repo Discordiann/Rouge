@@ -22,11 +22,6 @@ renderer.ui_images.append(
      (pygame.display.get_surface().get_width() / 2,
       pygame.display.get_surface().get_height() / 2)])
 
-for i in range(display.SCREEN_TILE_WIDTH):
-    display.tile_screen.append([])
-    for j in range(display.SCREEN_TILE_HEIGHT):
-        display.tile_screen[i].append(assets.tile_textures[assets.Tiles.BLUE])
-
 guy_x = int(map.SIZE[0] / 2)
 guy_y = int(map.SIZE[1] / 2)
 
@@ -40,9 +35,9 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == ord('w'):
-                renderer.camera_pos[1] += 1
-            elif event.key == ord('s'):
                 renderer.camera_pos[1] -= 1
+            elif event.key == ord('s'):
+                renderer.camera_pos[1] += 1
             elif event.key == ord('a'):
                 renderer.camera_pos[0] -= 1
             elif event.key == ord('d'):
@@ -65,9 +60,9 @@ while running:
 
     renderer.entity_list = []
     renderer.entity_list.append([assets.entity_textures[assets.Entities.GUY],
-                                (guy_x - renderer.camera_pos[0], guy_y - renderer.camera_pos[1])])
+                                (guy_x, guy_y)])
     renderer.entity_list.append([assets.entity_textures[assets.Entities.EVIL_GUY],
-                                (evil_guy_x - renderer.camera_pos[0], evil_guy_y - renderer.camera_pos[1])])
+                                (evil_guy_x, evil_guy_y)])
 
     renderer.render()
     clock.tick(60)  # limits FPS to 60
